@@ -1,0 +1,98 @@
+{
+  "project_info": {
+    "project_number": "1041434253425",
+    "firebase_url": "https://yessir-ca471.firebaseio.com",
+    "project_id": "yessir-ca471",
+    "storage_bucket": "yessir-ca471.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1041434253425:android:f2c78b855537b7084c23d0",
+        "android_client_info": {
+          "package_name": "com.educare.schoolapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1041434253425-4ale72aciqau9oudf8me8l6rov9ai3mf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCojBK1dJxR0pidEop-dznmRvFG-rliS3I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1041434253425-4ale72aciqau9oudf8me8l6rov9ai3mf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1041434253425:android:0bcd9b1c4fb7710a",
+        "android_client_info": {
+          "package_name": "com.example.roshan.yessir"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1041434253425-4ale72aciqau9oudf8me8l6rov9ai3mf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCojBK1dJxR0pidEop-dznmRvFG-rliS3I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1041434253425-4ale72aciqau9oudf8me8l6rov9ai3mf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1041434253425:android:9a830ccc6593a7ed4c23d0",
+        "android_client_info": {
+          "package_name": "com.heartsun.informer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1041434253425-4ale72aciqau9oudf8me8l6rov9ai3mf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCojBK1dJxR0pidEop-dznmRvFG-rliS3I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1041434253425-4ale72aciqau9oudf8me8l6rov9ai3mf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
