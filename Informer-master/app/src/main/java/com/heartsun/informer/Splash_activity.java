@@ -35,8 +35,8 @@ public class Splash_activity extends AppCompatActivity {
 
         getToken();
 
-        logo = (ImageView)findViewById(R.id.logo);
-        title = (TextView)findViewById(R.id.appname);
+        logo = findViewById(R.id.logo);
+        title = findViewById(R.id.appname);
 
         Animation animation = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fade_in);
         Animation anticlock = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.anticlock);
@@ -51,7 +51,16 @@ public class Splash_activity extends AppCompatActivity {
             @Override
             public void onAnimationEnd(Animation animation) {
                 finish();
-                startActivity(new Intent(getApplicationContext(),Login_activity.class));
+                try {
+                    if (!prefrenceClass.getMobile().equals("")){
+                        startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                    }else{
+                        startActivity(new Intent(getApplicationContext(),Login_activity.class));
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+
             }
 
             @Override

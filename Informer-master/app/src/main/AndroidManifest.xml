@@ -16,6 +16,9 @@
 
         </activity>
 
+        <activity android:name=".Register_activity"
+            android:theme="@style/Fullapp"/>
+
         <service android:name=".firebase_push_notification.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

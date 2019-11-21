@@ -12,6 +12,8 @@ import android.os.Bundle;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+
+import android.os.Handler;
 import android.util.Base64;
 import android.view.View;
 import android.view.Window;
@@ -22,6 +24,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.heartsun.informer.progressDialog.ShowProgress;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,9 +41,12 @@ public class MainActivity extends AppCompatActivity implements ItemClickListener
     RecyclerView recyclerfirst;
     public RelativeLayout popUpView;
     List<Message_model> message_models;
-
+    SharedPrefrenceClass prefrenceClass;
     ImageView imagee;
     TextView title,date_createdtxt,messagedesctxt;
+    ShowProgress progress;
+
+    boolean doubleBackToExitPressedOnce = false;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -54,7 +61,10 @@ public class MainActivity extends AppCompatActivity implements ItemClickListener
         messagedesctxt = findViewById(R.id.messagedesctxt);
         date_createdtxt = findViewById(R.id.date_createdtxt);
 
+        progress = new ShowProgress(MainActivity.this);
 
+
+        prefrenceClass = new SharedPrefrenceClass(getApplicationContext());
 
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.actionbar);
@@ -82,43 +92,52 @@ public class MainActivity extends AppCompatActivity implements ItemClickListener
             }
         });
 
+        getMessageJson(prefrenceClass.getMobile());
 
-        //ProgressDialog
-
-        progressDialog = new ProgressDialog(MainActivity.this);
-        progressDialog.setMessage("Loading ....");
-        progressDialog.setCancelable(false);
-        progressDialog.show();
-        getMessageJson();
     }
 
-    public void getMessageJson(){
-        String ReceiverMobileNo = "9855059322";
+    public void getMessageJson(String ReceiverMobileNo){
+
+        progress.showProgress();
         RetrofitApiInterface retrofitApiInterface = RetrofitClient.getRetrofit().create(RetrofitApiInterface.class);
         Call<List<Message_model>> modalClassCall = retrofitApiInterface.getMessage(ReceiverMobileNo);
         modalClassCall.enqueue(new Callback<List<Message_model>>() {
             @Override
             public void onResponse(Call<List<Message_model>> call, Response<List<Message_model>> response) {
                     if (response.isSuccessful()){
-                        //Toast.makeText(MainActivity.this, "Response : "+response.body(), Toast.LENGTH_SHORT).show();
-                        if (response.body().size() != 0){
-                            message_models = response.body();
-                            Toast.makeText(MainActivity.this, "I am here", Toast.LENGTH_SHORT).show();
-                            staggeredAdapter = new StaggeredAdapter(getApplicationContext(), response.body());
-                            StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL);
-                            recyclerfirst.setLayoutManager(staggeredGridLayoutManager);
-                            recyclerfirst.setAdapter(staggeredAdapter);
-                            staggeredAdapter.notifyDataSetChanged();
-                            staggeredAdapter.setClickListener(MainActivity.this);
-                            if (progressDialog.isShowing()){
-                                progressDialog.dismiss();
+                        try {
+                            if (response.body().size() != 0){
+                                message_models = response.body();
+                                Toast.makeText(MainActivity.this, "I am here", Toast.LENGTH_SHORT).show();
+                                staggeredAdapter = new StaggeredAdapter(getApplicationContext(), response.body());
+                                StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL);
+                                recyclerfirst.setLayoutManager(staggeredGridLayoutManager);
+                                recyclerfirst.setAdapter(staggeredAdapter);
+                                staggeredAdapter.notifyDataSetChanged();
+                                staggeredAdapter.setClickListener(MainActivity.this);
+                                if (progress != null){
+                                    progress.hideProgress();
+                                }
+                            }else{
+                                if (progress != null){
+                                    progress.hideProgress();
+                                }
+                                Toast.makeText(MainActivity.this, "No any notification", Toast.LENGTH_SHORT).show();
                             }
+                        }catch (Exception e){
+                            e.printStackTrace();
                         }
+
                     }else{
-                        if (progressDialog.isShowing()){
-                            progressDialog.dismiss();
+                        try {
+                            if (progress != null){
+                                progress.hideProgress();
+                            }
+                            Toast.makeText(MainActivity.this, "No data", Toast.LENGTH_SHORT).show();
+                        }catch (Exception e){
+                            e.printStackTrace();
                         }
-                        Toast.makeText(MainActivity.this, "I am null response body", Toast.LENGTH_SHORT).show();
+
                     }
 
 
@@ -126,7 +145,14 @@ public class MainActivity extends AppCompatActivity implements ItemClickListener
 
             @Override
             public void onFailure(Call<List<Message_model>> call, Throwable t) {
-
+                try {
+                    if (progress != null){
+                        progress.hideProgress();
+                    }
+                    Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
             }
         });
     }
@@ -165,5 +191,35 @@ public class MainActivity extends AppCompatActivity implements ItemClickListener
 
 
 
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+            getSupportFragmentManager().popBackStack();
+        } else if (!doubleBackToExitPressedOnce) {
+            this.doubleBackToExitPressedOnce = true;
+            Toast.makeText(this, "Touch again to exit", Toast.LENGTH_SHORT).show();
+
+            new Handler().postDelayed(new Runnable() {
+
+                @Override
+                public void run() {
+
+                    doubleBackToExitPressedOnce = false;
+
+
+                }
+            }, 2000);
+        } else {
+            super.onBackPressed();
+            finishAffinity();
+            return;
+        }
+    }
+
+    public void close(View view) {
+        popUpView.setVisibility(View.GONE);
     }
 }
