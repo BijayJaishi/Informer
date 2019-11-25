@@ -21,7 +21,7 @@ public class Splash_activity extends AppCompatActivity {
     ImageView logo;
     TextView title;
     SharedPrefrenceClass prefrenceClass;
-
+    int count = 0;
 
 
     @Override
@@ -68,6 +68,26 @@ public class Splash_activity extends AppCompatActivity {
 
             }
         });
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        try{
+            count = prefrenceClass.getCloseApp();
+            count = count + 1;
+            prefrenceClass.closeApp(count);
+
+            if (prefrenceClass.getCloseApp() == 10){
+                finishAffinity();
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
 
     }
 

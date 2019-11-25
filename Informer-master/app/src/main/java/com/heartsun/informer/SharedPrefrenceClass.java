@@ -19,6 +19,11 @@ public class SharedPrefrenceClass {
         editor = sp.edit();
     }
 
+    public void closeApp(int close){
+        editor.putInt("close",close);
+        editor.apply();
+    }
+
     public void saveMobile(String mobile){
         editor.putString("mobile",mobile);
         editor.apply();
@@ -33,7 +38,12 @@ public class SharedPrefrenceClass {
         return sp.getString("mobile","");
     }
 
+    public int getCloseApp(){
+        return sp.getInt("close",0);
+    }
+
     public String getToken(){
         return sp.getString("token","");
     }
+
 }
